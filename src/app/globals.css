@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root { --font-inter: "Inter", system-ui, sans-serif; }
+@layer components {
+  .btn-primary { @apply bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#00474b] transition-colors disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn-secondary { @apply border border-gray-200 bg-white text-brand-muted px-4 py-2 rounded-lg text-sm font-medium hover:border-primary hover:text-brand-text transition-colors; }
+  .card { @apply bg-white border border-gray-200 rounded-xl shadow-sm; }
+  .badge { @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium; }
+}

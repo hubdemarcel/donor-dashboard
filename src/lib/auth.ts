@@ -5,11 +5,12 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "credentials",
       credentials: {
-        email:    { label: "Email",    type: "email" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (credentials?.email === process.env.TEST_USER_EMAIL && credentials?.password === process.env.TEST_USER_PASSWORD) {
+        if (!credentials) return null;
+        if (credentials.email === process.env.TEST_USER_EMAIL && credentials.password === process.env.TEST_USER_PASSWORD) {
           return { id: "user_vp_001", name: "Sarah Mitchell", email: credentials.email };
         }
         return null;
@@ -26,3 +27,4 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
+

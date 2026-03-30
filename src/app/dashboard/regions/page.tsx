@@ -192,9 +192,17 @@ export default function RegionsPage() {
   );
 
   if (empty || !summary) return (
-    <div className="card p-12 text-center text-brand-muted text-sm">
-      No regional data found.{" "}
-      <a href="/dashboard/upload" className="text-primary underline">Upload a CSV</a> to get started.
+    <div className="card p-12 text-center space-y-3">
+      <p className="text-base font-semibold text-brand-text">No regional data loaded yet</p>
+      <p className="text-sm text-brand-muted max-w-sm mx-auto">
+        Upload your gift history CSV from the Dashboard to unlock regional breakdowns and retention maps.
+      </p>
+      <a
+        href="/dashboard"
+        className="inline-block mt-2 px-5 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:opacity-90 transition-opacity"
+      >
+        Go to Dashboard →
+      </a>
     </div>
   );
 

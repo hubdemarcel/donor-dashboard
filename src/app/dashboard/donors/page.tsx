@@ -70,8 +70,17 @@ export default function DonorsPage() {
   );
 
   if (empty) return (
-    <div className="card p-12 text-center text-brand-muted text-sm">
-      No donor data found. <a href="/dashboard/upload" className="text-primary underline">Upload a CSV</a> to get started.
+    <div className="card p-12 text-center space-y-3">
+      <p className="text-base font-semibold text-brand-text">No donor data loaded yet</p>
+      <p className="text-sm text-brand-muted max-w-sm mx-auto">
+        Upload your gift history CSV from the Dashboard to see your full donor list here.
+      </p>
+      <a
+        href="/dashboard"
+        className="inline-block mt-2 px-5 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:opacity-90 transition-opacity"
+      >
+        Go to Dashboard →
+      </a>
     </div>
   );
 

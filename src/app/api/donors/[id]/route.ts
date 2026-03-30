@@ -6,15 +6,16 @@ import type { GiftRow } from "@/types";
 
 export async function GET(
   _req: Request,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   const session = await getServerSession(authOptions);
   if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const userId = (session.user as { id?: string }).id || session.user.email!;
+  const { id } = await context.params;
 
   try {
     const rows = await prisma.giftRow.findMany({
-      where: { userId, donor_id: params.id },
+      where: { userId, donor_id: id },
       orderBy: { gift_date: "desc" },
     });
 
@@ -63,3 +64,4 @@ export async function GET(
     return NextResponse.json({ error: String(err) }, { status: 500 });
   }
 }
+

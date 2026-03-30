@@ -85,3 +85,4 @@ Structured result: ${JSON.stringify(result)}`,
     return NextResponse.json({ error: String(err) }, { status: 500 });
   }
 }
+

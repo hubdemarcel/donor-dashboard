@@ -97,7 +97,7 @@ C:\Users\Usuario\donor\
 NEXTAUTH_URL=http://localhost:3333
 NEXTAUTH_SECRET=<any string>
 TEST_USER_EMAIL=vp@donoriq.com
-TEST_USER_PASSWORD=yesihiremarcel
+TEST_USER_PASSWORD=demo1234
 DATABASE_URL=file:./dev.db
 PERPLEXITY_API_KEY=pplx-...
 ```
@@ -152,6 +152,7 @@ All computed in `src/lib/metrics.ts`. **Do not duplicate logic elsewhere.**
 The AI (Perplexity) **never sees raw data** and **never computes numbers**.
 
 Flow:
+
 1. User types a question
 2. `classifyIntent()` in `query-engine.ts` assigns an intent type
 3. `executeIntent()` runs deterministic SQL-like logic on the rows
@@ -182,7 +183,7 @@ This prevents hallucination. The VP can trust the numbers because they come from
 5. **Auth userId** — always extract as: `(session.user as { id?: string }).id || session.user.email!`
 6. **API responses** — always wrap in try/catch and return `NextResponse.json({ error: String(err) }, { status: 500 })` on failure.
 7. **Fetch in client components** — always do `const text = await res.text(); const data = JSON.parse(text)` instead of `res.json()` directly to avoid silent JSON parse errors.
-8. **Perplexity streaming** — model is `sonar`, base URL is `https://api.perplexity.ai/chat/completions`, parse SSE lines starting with `data: `.
+8. **Perplexity streaming** — model is `sonar`, base URL is `https://api.perplexity.ai/chat/completions`, parse SSE lines starting with `data:`.
 9. **Do not upgrade Prisma** — stay on v5.22.0 to match the generated client.
 10. **Tailwind color classes** — custom colors are: `primary`, `surface`, `brand-text`, `brand-muted`, `brand-faint`. See `tailwind.config.js`.
 
@@ -219,7 +220,7 @@ Always point Claude Code to this file first with:
 
 ## Current Status
 
-- App runs on http://localhost:3333 ✅
+- App runs on <http://localhost:3333> ✅
 - Login works ✅
 - CSV upload parses and previews ✅
 - Commit to SQLite works ✅

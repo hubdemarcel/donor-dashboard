@@ -21,8 +21,9 @@ npm run dev -- -p 3333
 ```
 
 Open [http://localhost:3333](http://localhost:3333) and sign in with:
+
 - **Email:** `vp@donoriq.com`
-- **Password:** `yesihiremarcel`
+- **Password:** `demo1234`
 
 Then upload `data/donor_gift_history.csv` to populate the dashboard.
 
@@ -109,10 +110,10 @@ python scripts/generate_donor_data.py
 | `NEXTAUTH_URL` | `https://your-app.vercel.app` |
 | `NEXTAUTH_SECRET` | any random string |
 | `TEST_USER_EMAIL` | `vp@donoriq.com` |
-| `TEST_USER_PASSWORD` | `yesihiremarcel` |
+| `TEST_USER_PASSWORD` | `demo1234` |
 | `DATABASE_URL` | `file:./prisma/dev.db` |
 | `PERPLEXITY_API_KEY` | `pplx-...` |
 
-4. Deploy. The build step runs `prisma generate && prisma db push && next build` automatically.
+1. Deploy. The build step runs `prisma generate && prisma db push && next build` automatically.
 
 > **Note:** SQLite on Vercel is ephemeral — data resets on cold starts. Upload the CSV each session. For persistent storage, migrate to [Neon](https://neon.tech) (Postgres, free tier).

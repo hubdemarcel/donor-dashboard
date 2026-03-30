@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { prisma, schemaReady } from "@/lib/db";
 import type { GiftRow } from "@/types";
 
 export interface DonorSummary {
@@ -22,6 +22,7 @@ export async function GET() {
   const userId = (session.user as { id?: string }).id || session.user.email!;
 
   try {
+    await schemaReady;
     const rows = await prisma.giftRow.findMany({ where: { userId } });
     if (rows.length === 0) return NextResponse.json({ empty: true, donors: [] });
 

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { prisma, schemaReady } from "@/lib/db";
 import { classifyIntent, executeIntent } from "@/lib/query-engine";
 import type { GiftRow } from "@/types";
 
@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
   const userId = (session.user as { id?: string }).id || session.user.email!;
 
   try {
+    await schemaReady;
     const { question } = await req.json();
     if (!question?.trim()) return new Response("No question provided", { status: 400 });
 

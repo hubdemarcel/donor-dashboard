@@ -40,10 +40,22 @@ export default function DashboardPage() {
 
   async function fetchKpis() {
     setLoading(true);
-    const res  = await fetch("/api/metrics");
-    const data = await res.json();
-    if (data.empty) { setEmpty(true); setKpis(null); } else { setKpis(data); setEmpty(false); }
-    setLoading(false);
+    try {
+      const res  = await fetch("/api/metrics");
+      const text = await res.text();
+      const data = JSON.parse(text);
+      if (data.empty || data.error || !res.ok || typeof data.totalRaised === "undefined") {
+        setEmpty(true);
+        setKpis(null);
+      } else {
+        setKpis(data);
+        setEmpty(false);
+      }
+    } catch {
+      setEmpty(true);
+    } finally {
+      setLoading(false);
+    }
   }
   useEffect(() => { fetchKpis(); }, []);
 

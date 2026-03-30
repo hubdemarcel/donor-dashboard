@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { parseAndValidateCsv } from "@/lib/csv-parser";
-import { prisma } from "@/lib/db";
+import { prisma, schemaReady } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
     const { validRows, invalidRows, totalParsed } = parseAndValidateCsv(text);
 
     if (commit) {
+      await schemaReady;
       // Ensure the User row exists before inserting GiftRows (FK constraint)
       await prisma.user.upsert({
         where: { id: userId },

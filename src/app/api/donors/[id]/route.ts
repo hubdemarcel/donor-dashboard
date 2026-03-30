@@ -6,8 +6,9 @@ import type { GiftRow } from "@/types";
 
 export async function GET(
   _req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
   if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const userId = (session.user as { id?: string }).id || session.user.email!;
@@ -15,7 +16,7 @@ export async function GET(
   try {
     await schemaReady;
     const rows = await prisma.giftRow.findMany({
-      where: { userId, donor_id: params.id },
+      where: { userId, donor_id: id },
       orderBy: { gift_date: "desc" },
     });
 
@@ -25,10 +26,10 @@ export async function GET(
 
     const typedRows = rows as GiftRow[];
     const totalGiven = typedRows.reduce((s, r) => s + r.gift_amount, 0);
-    const giftCount  = typedRows.length;
+    const giftCount = typedRows.length;
     const avgGift    = totalGiven / giftCount;
 
-    // rows is sorted desc — [0] is most recent, [last] is oldest
+    // rows is sorted desc - [0] is most recent, [last] is oldest
     const lastGiftDate  = typedRows[0].gift_date;
     const firstGiftDate = typedRows[typedRows.length - 1].gift_date;
     const firstRow      = typedRows[0];

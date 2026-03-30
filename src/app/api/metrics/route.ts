@@ -11,7 +11,10 @@ export async function GET() {
   const userId = (session.user as { id?: string }).id || session.user.email!;
   try {
     await schemaReady;
-    const rows = await prisma.giftRow.findMany({ where: { userId } });
+    const rows = await prisma.$queryRawUnsafe<GiftRow[]>(
+      `SELECT * FROM "GiftRow" WHERE "userId" = ?`,
+      userId
+    );
     if (rows.length === 0) return NextResponse.json({ empty: true });
     const kpis = computeAllKpis(rows as GiftRow[]);
     return NextResponse.json(kpis);

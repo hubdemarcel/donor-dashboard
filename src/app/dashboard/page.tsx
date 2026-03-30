@@ -40,9 +40,26 @@ export default function DashboardPage() {
 
   async function fetchKpis() {
     setLoading(true);
-    const res  = await fetch("/api/metrics");
-    const data = await res.json();
-    if (data.empty) { setEmpty(true); setKpis(null); } else { setKpis(data); setEmpty(false); }
+    try {
+      const res  = await fetch("/api/metrics");
+      const text = await res.text();
+      const data = JSON.parse(text);
+      if (!res.ok) {
+        console.error("Metrics API error:", data.error);
+        setEmpty(true);
+        setKpis(null);
+      } else if (data.empty) {
+        setEmpty(true);
+        setKpis(null);
+      } else {
+        setKpis(data);
+        setEmpty(false);
+      }
+    } catch (e) {
+      console.error("Failed to fetch metrics:", e);
+      setEmpty(true);
+      setKpis(null);
+    }
     setLoading(false);
   }
   useEffect(() => { fetchKpis(); }, []);
